@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import { formatDate } from '../lib/posts';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const date = formatDate(post.data.date);
+---
+<Base title={post.data.title} description={post.data.summary}>
+  <article class="post">
+    <p class="label"><time datetime={date}>{date}</time></p>
+    <h1>{post.data.title}</h1>
+    <p class="post-summary">{post.data.summary}</p>
+    <div class="prose">
+      <slot />
+    </div>
+    {post.data.crosspost && (
+      <p class="crosspost">Also on <a href={post.data.crosspost}>LinkedIn</a>.</p>
+    )}
+    <p class="more"><a href="/writing/">← All writing</a></p>
+  </article>
+</Base>

@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/get-posts';
+
+const posts = await getPosts();
+---
+<Base title="Writing" description="Posts by Tomáš Samek on frameworks, performance, and how AI coding agents actually build software.">
+  <section class="page-head">
+    <p class="label">Writing</p>
+    <h1>Writing</h1>
+  </section>
+  <section>
+    {posts.length > 0 ? <PostList posts={posts} /> : <p class="lede">Nothing published yet.</p>}
+  </section>
+</Base>
