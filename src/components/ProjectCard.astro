@@ -1,0 +1,25 @@
+---
+import type { FeaturedProject, Project } from '../lib/github';
+
+interface Props {
+  project: Project | FeaturedProject;
+}
+
+const { project } = Astro.props;
+const blurb = 'blurb' in project ? project.blurb : project.description;
+const keyResult = 'keyResult' in project ? project.keyResult : undefined;
+---
+<article class="project-card">
+  <header>
+    <h3><a href={project.url}>{project.name}</a></h3>
+    {project.language && <span class="meta">{project.language}</span>}
+  </header>
+  {blurb && <p>{blurb}</p>}
+  {keyResult && <p class="key-result">{keyResult}</p>}
+  {(project.stars > 0 || project.homepage) && (
+    <p class="meta">
+      {project.stars > 0 && <span>★ {project.stars}</span>}
+      {project.homepage && <a href={project.homepage}>site →</a>}
+    </p>
+  )}
+</article>

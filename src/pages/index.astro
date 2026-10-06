@@ -1,6 +1,39 @@
 ---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getPosts } from '../lib/get-posts';
+import { loadProjects } from '../lib/load-projects';
+
+const { featured } = await loadProjects();
+const latest = (await getPosts()).slice(0, 3);
 ---
-<html lang="en">
-  <head><meta charset="utf-8" /><title>Tomáš Samek</title></head>
-  <body><p>Site under construction.</p></body>
-</html>
+<Base>
+  <section class="hero">
+    <h1>Tomáš Samek</h1>
+    <p class="pitch">I build whatever I find interesting, and push it until it can't go any faster.</p>
+    <p class="support">
+      Right now: compile-time Java frameworks · GPU rendering in Rust · memory for AI agents · benchmarking how coding agents actually perform.
+    </p>
+  </section>
+
+  <section>
+    <p class="label">Projects</p>
+    <div class="project-grid">
+      {featured.map((p) => <ProjectCard project={p} />)}
+    </div>
+    <p class="more"><a href="/projects/">All projects →</a></p>
+  </section>
+
+  {latest.length > 0 && (
+    <section>
+      <p class="label">Writing</p>
+      <PostList posts={latest} />
+      <p class="more"><a href="/writing/">All writing →</a></p>
+    </section>
+  )}
+
+  <aside class="side-note">
+    Background: 19 years of Java, 13 at Oracle on enterprise platform infrastructure: real-time search, pluggable persistence, Jakarta EE. Based in Prague.
+  </aside>
+</Base>
