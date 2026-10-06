@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { loadProjects } from '../lib/load-projects';
+
+const { featured, groups } = await loadProjects();
+---
+<Base title="Projects" description="Every public project by Tomáš Samek: featured work first, everything else picked up from GitHub automatically.">
+  <section class="page-head">
+    <p class="label">Projects</p>
+    <h1>Things I've built</h1>
+    <p class="lede">Every public repo on this account. Featured first; everything else is picked up from GitHub on every build, so new repos show up here on their own.</p>
+  </section>
+
+  <section>
+    <h2>Featured</h2>
+    <div class="project-grid">
+      {featured.map((p) => <ProjectCard project={p} />)}
+    </div>
+  </section>
+
+  {groups.map((g) => (
+    <section>
+      <h2>{g.title}</h2>
+      <div class="project-grid">
+        {g.projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </section>
+  ))}
+</Base>
