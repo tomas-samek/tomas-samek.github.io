@@ -115,3 +115,28 @@ export function groupRest(
       projects: buckets.get(title)!.sort((a, b) => b.pushedAt.localeCompare(a.pushedAt)),
     }));
 }
+
+const PER_PAGE = 100;
+
+export async function fetchRepos(user: string, token?: string, fetchImpl: typeof fetch = fetch): Promise<GhRepo[]> {
+  const headers: Record<string, string> = {
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'User-Agent': `${user}-site-build`,
+  };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const all: GhRepo[] = [];
+  for (let page = 1; ; page++) {
+    const url = `https://api.github.com/users/${user}/repos?type=owner&per_page=${PER_PAGE}&page=${page}`;
+    const res = await fetchImpl(url, { headers });
+    if (!res.ok) {
+      const rateLimited = res.status === 403 || res.status === 429;
+      const hint = rateLimited ? (token ? ' (rate limited)' : ' (rate limited; set GITHUB_TOKEN)') : '';
+      throw new Error(`GitHub API ${res.status} for ${url}${hint}`);
+    }
+    const batch = (await res.json()) as GhRepo[];
+    all.push(...batch);
+    if (batch.length < PER_PAGE) return all;
+  }
+}
