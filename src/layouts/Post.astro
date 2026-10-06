@@ -10,7 +10,7 @@ interface Props {
 const { post } = Astro.props;
 const date = formatDate(post.data.date);
 ---
-<Base title={post.data.title} description={post.data.summary}>
+<Base title={post.data.title} description={post.data.summary} ogType="article" publishedTime={post.data.date}>
   <article class="post">
     <p class="label"><time datetime={date}>{date}</time></p>
     <h1>{post.data.title}</h1>
