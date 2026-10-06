@@ -18,7 +18,7 @@ const latest = (await getPosts()).slice(0, 3);
   </section>
 
   <section>
-    <p class="label">Projects</p>
+    <h2 class="label">Projects</h2>
     <div class="project-grid">
       {featured.map((p) => <ProjectCard project={p} />)}
     </div>
@@ -27,7 +27,7 @@ const latest = (await getPosts()).slice(0, 3);
 
   {latest.length > 0 && (
     <section>
-      <p class="label">Writing</p>
+      <h2 class="label">Writing</h2>
       <PostList posts={latest} />
       <p class="more"><a href="/writing/">All writing →</a></p>
     </section>
