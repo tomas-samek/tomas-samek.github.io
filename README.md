@@ -74,8 +74,8 @@ this site's root is hidden, so cards don't show a "site →" link back to the po
 
 - push to `main`: check, test, build, link check, deploy;
 - nightly at 03:00 UTC, to pick up new repos and star counts;
-- manual runs (`gh workflow run deploy.yml`);
-- pull requests: build and checks only, no deploy.
+- manual runs (`gh workflow run deploy.yml`), which deploy only when run on `main`;
+- pull requests and manual runs on other branches: build and checks only, no deploy.
 
 If the GitHub API or any check fails, nothing is deployed and the previous version stays live.
 
