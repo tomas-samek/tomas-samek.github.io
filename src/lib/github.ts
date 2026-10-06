@@ -102,15 +102,15 @@ export function groupRest(
 
   for (const r of repos) {
     if (featured.has(key(r.name))) continue;
-    const topics = r.topics ?? [];
-    const match = groupEntries.find(([topic]) => topics.includes(topic));
+    const topics = (r.topics ?? []).map(key);
+    const match = groupEntries.find(([topic]) => topics.includes(key(topic)));
     const title = match ? match[1] : OTHER_GROUP;
     const bucket = buckets.get(title) ?? [];
     bucket.push(toProject(r));
     buckets.set(title, bucket);
   }
 
-  const titleOrder = [...new Set(groupEntries.map(([, title]) => title)), OTHER_GROUP];
+  const titleOrder = [...new Set([...groupEntries.map(([, title]) => title), OTHER_GROUP])];
   return titleOrder
     .filter((title) => buckets.has(title))
     .map((title) => ({

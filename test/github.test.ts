@@ -147,6 +147,21 @@ describe('groupRest', () => {
   it('returns no groups when everything is featured', () => {
     expect(groupRest([repo({ name: 'a' })], ['a'], groups)).toEqual([]);
   });
+
+  it('matches config topic keys case-insensitively (GitHub topics are always lowercase)', () => {
+    const out = groupRest([repo({ name: 'x', topics: ['pet-project'] })], [], { 'Pet-Project': 'Experiments' });
+    expect(out.map((g) => g.title)).toEqual(['Experiments']);
+  });
+
+  it('renders a group configured with the title "Other" once, merged with unmatched repos', () => {
+    const out = groupRest(
+      [repo({ name: 'tagged', topics: ['misc'] }), repo({ name: 'untagged' })],
+      [],
+      { misc: OTHER_GROUP },
+    );
+    expect(out.map((g) => g.title)).toEqual([OTHER_GROUP]);
+    expect(out[0]?.projects.map((p) => p.name).sort()).toEqual(['tagged', 'untagged']);
+  });
 });
 
 describe('real-shaped fixture', () => {
