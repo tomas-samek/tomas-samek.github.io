@@ -57,6 +57,12 @@ describe('toProject', () => {
     );
   });
 
+  it('keeps only absolute http(s) homepages (scheme-less or javascript: become null)', () => {
+    expect(toProject(repo({ name: 'x', homepage: 'example.com' })).homepage).toBeNull();
+    expect(toProject(repo({ name: 'x', homepage: 'javascript:alert(1)' })).homepage).toBeNull();
+    expect(toProject(repo({ name: 'x', homepage: 'http://x.dev' })).homepage).toBe('http://x.dev');
+  });
+
   it('treats missing topics as an empty list', () => {
     const { topics: _omit, ...noTopics } = repo({ name: 'x' });
     expect(toProject(noTopics as GhRepo).topics).toEqual([]);

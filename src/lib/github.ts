@@ -47,9 +47,12 @@ export const OTHER_GROUP = 'Other';
 const key = (name: string) => name.toLowerCase();
 const blankToNull = (s: string | null) => (s && s.trim() ? s.trim() : null);
 
+const isHttpUrl = (s: string) => URL.canParse(s) && ['http:', 'https:'].includes(new URL(s).protocol);
+
+/** Absolute http(s) only: a scheme-less value would render as a broken relative link. */
 function normaliseHomepage(homepage: string | null): string | null {
   const h = blankToNull(homepage);
-  if (h === null) return null;
+  if (h === null || !isHttpUrl(h)) return null;
   const withSlash = h.endsWith('/') ? h : `${h}/`;
   return withSlash === SITE_ROOT ? null : h;
 }
