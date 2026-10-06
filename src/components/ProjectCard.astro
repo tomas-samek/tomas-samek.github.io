@@ -19,7 +19,7 @@ const keyResult = 'keyResult' in project ? project.keyResult : undefined;
   {(project.stars > 0 || project.homepage) && (
     <p class="meta">
       {project.stars > 0 && <span>★ {project.stars}</span>}
-      {project.homepage && <a href={project.homepage}>site →</a>}
+      {project.homepage && <a href={project.homepage} aria-label={`${project.name} website`}>site →</a>}
     </p>
   )}
 </article>
