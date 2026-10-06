@@ -38,6 +38,18 @@ jobs:
         with:
           path: dist
 
+  # GitHub disables scheduled workflows after 60 days without repo activity;
+  # re-enabling via the API resets that timer so the nightly refresh keeps running.
+  keepalive:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/deploy.yml/enable"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
     if: github.event_name != 'pull_request'
     needs: build
