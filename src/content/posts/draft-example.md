@@ -7,3 +7,10 @@ draft: true
 ---
 
 Post body in Markdown. **Bold**, `code`, [links](https://example.com/), tables and fenced code blocks all work.
+
+```java
+@Produces
+DataSource dataSource(DbConfig config) {
+    return new HikariDataSource(config.toHikari());
+}
+```
