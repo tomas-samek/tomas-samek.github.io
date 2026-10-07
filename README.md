@@ -56,7 +56,8 @@ Markdown body.
 Edit `src/data/projects.ts`:
 
 - **`featured`**: repos shown on the home page and at the top of `/projects/`, **in array order**, each with
-  a hand-written `blurb` and an optional `keyResult` line. The build **fails** if a featured repo is missing,
+  a hand-written `blurb`, an optional `keyResult` line, and a `visual` (`mark`, `hue`, banner `tagline`; see
+  [Project marks and banners](#project-marks-and-banners)). The build **fails** if a featured repo is missing,
   renamed, archived, forked or made private, and the error names it. Fix the config rather than letting
   a project silently drop off the landing page.
 - **`exclude`**: repos that are never shown (the profile README repo and this repo).
@@ -66,6 +67,33 @@ Edit `src/data/projects.ts`:
 Live data (description, language, stars, homepage, topics) comes from GitHub. A repo homepage pointing at
 this site's root is hidden, so cards don't show a "site →" link back to the portfolio itself. Only absolute
 `http(s)` homepages are shown.
+
+### Project marks and banners
+
+Each featured project has a mark (a small line drawing) and a hue, defined once in `src/data/marks.ts`:
+
+| Repo | Mark | Hue |
+|---|---|---|
+| tiko-di | `graph`: a hub wired to its dependencies | teal |
+| causal-cone-engine | `cone`: wavefronts reaching a receptor plane | amber |
+| llm-framework-benchmark | `bars`: a full bar that passes, an empty one that fails | violet |
+| trie-memory | `trie`: a trie with one dashed "Unknown" node | rose |
+
+Cards show the mark large and faded in a tinted, textured header strip. Auto-discovered repos get the
+neutral `repo` mark on `slate`. Every hue meets WCAG AA contrast in both themes (`test/marks.test.ts`);
+featured projects must use distinct marks and hues.
+
+The build also writes a README banner per featured project and theme (`src/lib/banner.ts`), served at
+`https://tomas-samek.github.io/banners/<light|dark>/<repo>.svg`. Each project README embeds them with:
+
+```html
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://tomas-samek.github.io/banners/dark/<repo>.svg">
+  <img alt="<repo>: <tagline>" src="https://tomas-samek.github.io/banners/light/<repo>.svg" width="100%">
+</picture>
+```
+
+So a change to a mark, hue or tagline reaches the READMEs on the next deploy, with no commits in those repos.
 
 ## Deploy
 
