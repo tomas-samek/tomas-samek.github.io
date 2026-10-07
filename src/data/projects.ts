@@ -21,7 +21,7 @@ export const featured: readonly (FeaturedConfig & { visual: Visual })[] = [
     repo: 'llm-framework-benchmark',
     blurb:
       'Can an AI coding agent build the same framework-neutral spec on different stacks? An external black-box oracle grades every run, so the only variable is the framework, and the agent.',
-    keyResult: 'Spring Boot 4.0.6: 1 pass in 20 · Tiko 0.5.0: 15/15',
+    keyResult: 'Spring Boot 3.3.5 passes; 4.0.6 fails 19 of 20 one-shot runs · with a test loop, 12/12 recover',
     visual: { mark: 'bars', hue: 'violet', tagline: 'Same spec, different stacks, graded by an external oracle' },
   },
   {
@@ -33,6 +33,7 @@ export const featured: readonly (FeaturedConfig & { visual: Visual })[] = [
   },
   {
     repo: 'tdm-demo',
+    language: 'Rust',
     blurb:
       "A toy physics visualization I built for my kids' school project, running in the browser. Atoms and nuclei are networks of elastic connectors that soak up noise tick by tick, stretch, radiate what they can't hold, and snap. Uranium decays on its own.",
     keyResult: 'Rust → WebAssembly · integer-only, no floats · not real physics',

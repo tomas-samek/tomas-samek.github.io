@@ -64,7 +64,9 @@ Edit `src/data/projects.ts`:
 - **`groups`**: topic → section title for every other public repo. The first topic in config order wins;
   repos with no matching topic go under "Other". New public repos appear on `/projects/` after the next build.
 
-Live data (description, language, stars, homepage, topics) comes from GitHub. A repo homepage pointing at
+Live data (description, language, stars, homepage, topics) comes from GitHub. A featured entry can set
+`language` when GitHub reports none or the wrong one (tdm-demo holds only its WebAssembly build). Star counts
+below 10 are not shown. A repo homepage pointing at
 this site's root is hidden, so cards don't show a "site →" link back to the portfolio itself. Only absolute
 `http(s)` homepages are shown.
 

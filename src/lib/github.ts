@@ -31,6 +31,8 @@ export interface FeaturedConfig {
   blurb: string;
   keyResult?: string;
   visual?: Visual;
+  /** Overrides GitHub's language, e.g. for a repo that only holds a build output. */
+  language?: string;
 }
 
 export interface FeaturedProject extends Project {
@@ -90,6 +92,7 @@ export function mergeFeatured(repos: readonly GhRepo[], featured: readonly Featu
   }
   return featured.map((f) => ({
     ...toProject(byName.get(key(f.repo))!),
+    ...(f.language && { language: f.language }),
     blurb: f.blurb,
     keyResult: f.keyResult,
     visual: f.visual,

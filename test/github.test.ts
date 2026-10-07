@@ -96,6 +96,15 @@ describe('mergeFeatured', () => {
     expect(out[1]?.keyResult).toBeUndefined();
   });
 
+  it("lets the config override the GitHub language, and keeps GitHub's when it does not", () => {
+    const out = mergeFeatured([repo({ name: 'a', language: null }), repo({ name: 'b' })], [
+      { repo: 'a', blurb: 'A', language: 'Rust' },
+      { repo: 'b', blurb: 'B' },
+    ]);
+    expect(out[0]?.language).toBe('Rust');
+    expect(out[1]?.language).toBe('Java');
+  });
+
   it('carries the configured visual (mark, hue, tagline) through to the project', () => {
     const visual = { mark: 'graph', hue: 'teal', tagline: 't' } as const;
     expect(mergeFeatured(repos, [{ repo: 'a', blurb: 'x', visual }])[0]?.visual).toEqual(visual);

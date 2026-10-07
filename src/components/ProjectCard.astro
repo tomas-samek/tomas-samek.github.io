@@ -7,7 +7,11 @@ interface Props {
   project: Project | FeaturedProject;
 }
 
+/** Below this a star count reads as "nobody cares" rather than as signal, so it is not shown. */
+const MIN_STARS_SHOWN = 10;
+
 const { project } = Astro.props;
+const stars = project.stars >= MIN_STARS_SHOWN ? project.stars : 0;
 const blurb = 'blurb' in project ? project.blurb : project.description;
 const keyResult = 'keyResult' in project ? project.keyResult : undefined;
 const { mark, hue } = ('visual' in project && project.visual) || FALLBACK_VISUAL;
@@ -23,9 +27,9 @@ const style = `--ink-l:${colours.light.ink};--tint-l:${colours.light.tint};--ink
   <div class="card-body">
     {blurb && <p>{blurb}</p>}
     {keyResult && <p class="key-result">{keyResult}</p>}
-    {(project.stars > 0 || project.homepage) && (
+    {(stars > 0 || project.homepage) && (
       <p class="meta">
-        {project.stars > 0 && <span>★ {project.stars}</span>}
+        {stars > 0 && <span>★ {stars}</span>}
         {project.homepage && <a href={project.homepage} aria-label={`${project.name} website`}>site →</a>}
       </p>
     )}
