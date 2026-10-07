@@ -55,3 +55,14 @@ export function bannerSvg({ name, tagline, language, mark, hue, theme }: BannerI
     '</svg>',
   ].join('\n');
 }
+
+/** A small rounded tile with the project mark, for inline use in READMEs (e.g. the profile README list). */
+export function markTileSvg({ mark, hue, theme }: { mark: MarkName; hue: Hue; theme: Theme }): string {
+  const { ink, tint } = HUES[hue][theme];
+  return [
+    `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" role="img" aria-hidden="true">`,
+    `<rect width="48" height="48" rx="11" fill="${tint}" stroke="${ink}" stroke-opacity=".35"/>`,
+    `<svg x="5" y="5" width="38" height="38" viewBox="0 0 40 40" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" color="${ink}">${MARKS[mark]}</svg>`,
+    '</svg>',
+  ].join('\n');
+}

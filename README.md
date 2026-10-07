@@ -95,6 +95,9 @@ The build also writes a README banner per featured project and theme (`src/lib/b
 
 So a change to a mark, hue or tagline reaches the READMEs on the next deploy, with no commits in those repos.
 
+Small 48×48 mark tiles are served the same way at `https://tomas-samek.github.io/marks/<light|dark>/<repo>.svg`
+(`markTileSvg`). The profile README (`tomas-samek/tomas-samek`) uses them as list icons.
+
 ## Deploy
 
 `.github/workflows/deploy.yml` builds and deploys to GitHub Pages (Settings → Pages → Source:
