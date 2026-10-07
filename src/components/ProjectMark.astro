@@ -1,0 +1,22 @@
+---
+import { MARKS, type MarkName } from '../data/marks';
+
+interface Props {
+  name: MarkName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+<svg
+  class={className}
+  viewBox="0 0 40 40"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  set:html={MARKS[name]}
+/>

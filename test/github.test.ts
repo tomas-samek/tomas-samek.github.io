@@ -96,6 +96,12 @@ describe('mergeFeatured', () => {
     expect(out[1]?.keyResult).toBeUndefined();
   });
 
+  it('carries the configured visual (mark, hue, tagline) through to the project', () => {
+    const visual = { mark: 'graph', hue: 'teal', tagline: 't' } as const;
+    expect(mergeFeatured(repos, [{ repo: 'a', blurb: 'x', visual }])[0]?.visual).toEqual(visual);
+    expect(mergeFeatured(repos, [{ repo: 'a', blurb: 'x' }])[0]?.visual).toBeUndefined();
+  });
+
   it('matches config names case-insensitively', () => {
     expect(mergeFeatured(repos, [{ repo: 'A', blurb: 'x' }])[0]?.name).toBe('a');
   });

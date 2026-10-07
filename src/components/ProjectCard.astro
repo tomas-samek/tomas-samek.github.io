@@ -1,5 +1,7 @@
 ---
+import { FALLBACK_VISUAL, HUES } from '../data/marks';
 import type { FeaturedProject, Project } from '../lib/github';
+import ProjectMark from './ProjectMark.astro';
 
 interface Props {
   project: Project | FeaturedProject;
@@ -8,18 +10,24 @@ interface Props {
 const { project } = Astro.props;
 const blurb = 'blurb' in project ? project.blurb : project.description;
 const keyResult = 'keyResult' in project ? project.keyResult : undefined;
+const { mark, hue } = ('visual' in project && project.visual) || FALLBACK_VISUAL;
+const colours = HUES[hue];
+const style = `--ink-l:${colours.light.ink};--tint-l:${colours.light.tint};--ink-d:${colours.dark.ink};--tint-d:${colours.dark.tint}`;
 ---
-<article class="project-card">
-  <header>
+<article class="project-card" style={style}>
+  <header class={`strip tex-${mark}`}>
+    <ProjectMark name={mark} class="strip-mark" />
+    {project.language && <span class="lang">{project.language}</span>}
     <h3><a href={project.url}>{project.name}</a></h3>
-    {project.language && <span class="meta">{project.language}</span>}
   </header>
-  {blurb && <p>{blurb}</p>}
-  {keyResult && <p class="key-result">{keyResult}</p>}
-  {(project.stars > 0 || project.homepage) && (
-    <p class="meta">
-      {project.stars > 0 && <span>★ {project.stars}</span>}
-      {project.homepage && <a href={project.homepage} aria-label={`${project.name} website`}>site →</a>}
-    </p>
-  )}
+  <div class="card-body">
+    {blurb && <p>{blurb}</p>}
+    {keyResult && <p class="key-result">{keyResult}</p>}
+    {(project.stars > 0 || project.homepage) && (
+      <p class="meta">
+        {project.stars > 0 && <span>★ {project.stars}</span>}
+        {project.homepage && <a href={project.homepage} aria-label={`${project.name} website`}>site →</a>}
+      </p>
+    )}
+  </div>
 </article>

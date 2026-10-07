@@ -1,3 +1,5 @@
+import type { Visual } from '../data/marks';
+
 /** Shape of one entry from GET /users/{user}/repos (only the fields we use). */
 export interface GhRepo {
   name: string;
@@ -28,11 +30,13 @@ export interface FeaturedConfig {
   repo: string;
   blurb: string;
   keyResult?: string;
+  visual?: Visual;
 }
 
 export interface FeaturedProject extends Project {
   blurb: string;
   keyResult?: string;
+  visual?: Visual;
 }
 
 export interface ProjectGroup {
@@ -88,6 +92,7 @@ export function mergeFeatured(repos: readonly GhRepo[], featured: readonly Featu
     ...toProject(byName.get(key(f.repo))!),
     blurb: f.blurb,
     keyResult: f.keyResult,
+    visual: f.visual,
   }));
 }
 
