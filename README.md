@@ -78,6 +78,7 @@ Each featured project has a mark (a small line drawing) and a hue, defined once 
 | causal-cone-engine | `cone`: wavefronts reaching a receptor plane | amber |
 | llm-framework-benchmark | `bars`: a full bar that passes, an empty one that fails | violet |
 | trie-memory | `trie`: a trie with one dashed "Unknown" node | rose |
+| tdm-demo | `nucleus`: a core with connectors reaching out to its bonds | emerald |
 
 Cards show the mark large and faded in a tinted, textured header strip. Auto-discovered repos get the
 neutral `repo` mark on `slate`. Every hue meets WCAG AA contrast in both themes (`test/marks.test.ts`);

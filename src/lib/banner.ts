@@ -30,6 +30,8 @@ function texture(mark: MarkName, ink: string): string {
       return `<defs><pattern id="t" width="28" height="28" patternUnits="userSpaceOnUse"><rect width="12" height="28" fill="${ink}" fill-opacity=".12"/></pattern></defs><rect width="${W}" height="${H}" fill="url(#t)"/>`;
     case 'trie':
       return `<defs><pattern id="t" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M0 32 16 16 32 32Z" fill="${ink}" fill-opacity=".1"/></pattern></defs><rect width="${W}" height="${H}" fill="url(#t)"/>`;
+    case 'nucleus':
+      return `<defs><pattern id="t" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M-5 5 5-5M0 20 20 0M15 25 25 15" stroke="${ink}" stroke-opacity=".14" stroke-width="2.5"/></pattern></defs><rect width="${W}" height="${H}" fill="url(#t)"/>`;
     case 'repo':
       return '';
   }

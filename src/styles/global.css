@@ -64,6 +64,7 @@ section { padding: 40px 0; }
 .tex-cone { background-image: repeating-radial-gradient(circle at 0 50%, transparent 0 9px, color-mix(in srgb, var(--ink) 16%, transparent) 9px 10.5px); }
 .tex-bars { background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--ink) 12%, transparent) 0 6px, transparent 6px 14px); }
 .tex-trie { background-image: linear-gradient(135deg, color-mix(in srgb, var(--ink) 10%, transparent) 25%, transparent 25%), linear-gradient(225deg, color-mix(in srgb, var(--ink) 10%, transparent) 25%, transparent 25%); background-size: 16px 16px; }
+.tex-nucleus { background-image: repeating-linear-gradient(45deg, color-mix(in srgb, var(--ink) 14%, transparent) 0 1.5px, transparent 1.5px 10px); }
 
 /* Post list */
 .post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 20px; }

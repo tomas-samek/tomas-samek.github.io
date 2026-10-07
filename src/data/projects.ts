@@ -31,6 +31,13 @@ export const featured: readonly (FeaturedConfig & { visual: Visual })[] = [
     keyResult: 'Binds words across languages into one concept, append-only, built not to fabricate',
     visual: { mark: 'trie', hue: 'rose', tagline: 'Memory for AI agents, built not to fabricate' },
   },
+  {
+    repo: 'tdm-demo',
+    blurb:
+      "A toy physics visualization I built for my kids' school project, running in the browser. Atoms and nuclei are networks of elastic connectors that soak up noise tick by tick, stretch, radiate what they can't hold, and snap. Uranium decays on its own.",
+    keyResult: 'Rust → WebAssembly · integer-only, no floats · not real physics',
+    visual: { mark: 'nucleus', hue: 'emerald', tagline: 'A toy atom, running in your browser' },
+  },
 ];
 
 /** Never shown: the profile README repo and this site's repo. */

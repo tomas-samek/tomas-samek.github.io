@@ -20,7 +20,7 @@ const featuredRepo = (name: string): GhRepo => ({
   archived: false,
   private: false,
 });
-const allFeatured = ['tiko-di', 'causal-cone-engine', 'llm-framework-benchmark', 'trie-memory'].map(featuredRepo);
+const allFeatured = ['tiko-di', 'causal-cone-engine', 'llm-framework-benchmark', 'trie-memory', 'tdm-demo'].map(featuredRepo);
 
 describe('loadProjects', () => {
   beforeEach(() => {
