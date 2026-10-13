@@ -1,0 +1,57 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectMark from '../../components/ProjectMark.astro';
+import { FALLBACK_VISUAL, hueStyle } from '../../data/marks';
+import type { FeaturedProject } from '../../lib/github';
+import { loadProjects } from '../../lib/load-projects';
+
+export async function getStaticPaths() {
+  const { featured } = await loadProjects();
+  return featured.map((project) => ({ params: { repo: project.name }, props: { project } }));
+}
+
+interface Props {
+  project: FeaturedProject;
+}
+
+/** Same threshold as the cards: below this a star count isn't signal. */
+const MIN_STARS_SHOWN = 10;
+
+const { project } = Astro.props;
+const { mark, hue } = project.visual ?? FALLBACK_VISUAL;
+const tagline = project.visual?.tagline;
+const readme = await getEntry('readmes', project.name);
+const Readme = readme ? (await render(readme)).Content : undefined;
+---
+<Base title={project.name} description={project.blurb}>
+  <article class="project-page hued" style={hueStyle(hue)}>
+    <p class="crumb"><a href="/projects/">← All projects</a></p>
+    <header class={`strip strip-hero tex-${mark}`}>
+      <ProjectMark name={mark} class="strip-mark" />
+      {project.language && <span class="lang">{project.language}</span>}
+      <h1>{project.name}</h1>
+      {tagline && <p class="tagline">{tagline}</p>}
+    </header>
+
+    <div class="project-summary">
+      <p class="lede">{project.blurb}</p>
+      {project.keyResult && <p class="key-result">{project.keyResult}</p>}
+      <p class="project-links">
+        <a href={project.url}>Repository on GitHub →</a>
+        {project.homepage && <a href={project.homepage}>Website →</a>}
+        {project.stars >= MIN_STARS_SHOWN && <span class="meta">★ {project.stars}</span>}
+      </p>
+    </div>
+
+    {Readme && (
+      <section class="readme" aria-labelledby="readme-label">
+        <p class="label" id="readme-label">From the README</p>
+        <div class="prose prose-readme">
+          <Readme />
+        </div>
+        <p class="more"><a href={project.url}>Continue on GitHub →</a></p>
+      </section>
+    )}
+  </article>
+</Base>

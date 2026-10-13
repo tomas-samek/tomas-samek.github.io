@@ -1,6 +1,7 @@
 ---
-import { FALLBACK_VISUAL, HUES } from '../data/marks';
+import { FALLBACK_VISUAL, hueStyle } from '../data/marks';
 import type { FeaturedProject, Project } from '../lib/github';
+import { projectPath } from '../lib/readme';
 import ProjectMark from './ProjectMark.astro';
 
 interface Props {
@@ -12,26 +13,26 @@ const MIN_STARS_SHOWN = 10;
 
 const { project } = Astro.props;
 const stars = project.stars >= MIN_STARS_SHOWN ? project.stars : 0;
-const blurb = 'blurb' in project ? project.blurb : project.description;
-const keyResult = 'keyResult' in project ? project.keyResult : undefined;
+const isFeatured = 'blurb' in project;
+const blurb = isFeatured ? project.blurb : project.description;
+const keyResult = isFeatured ? project.keyResult : undefined;
 const { mark, hue } = ('visual' in project && project.visual) || FALLBACK_VISUAL;
-const colours = HUES[hue];
-const style = `--ink-l:${colours.light.ink};--tint-l:${colours.light.tint};--ink-d:${colours.dark.ink};--tint-d:${colours.dark.tint}`;
+// Featured projects have their own page; the rest only have the repo.
+const titleHref = isFeatured ? projectPath(project.name) : project.url;
 ---
-<article class="project-card" style={style}>
+<article class="project-card hued" style={hueStyle(hue)}>
   <header class={`strip tex-${mark}`}>
     <ProjectMark name={mark} class="strip-mark" />
     {project.language && <span class="lang">{project.language}</span>}
-    <h3><a href={project.url}>{project.name}</a></h3>
+    <h3><a href={titleHref}>{project.name}</a></h3>
   </header>
   <div class="card-body">
     {blurb && <p>{blurb}</p>}
     {keyResult && <p class="key-result">{keyResult}</p>}
-    {(stars > 0 || project.homepage) && (
-      <p class="meta">
-        {stars > 0 && <span>★ {stars}</span>}
-        {project.homepage && <a href={project.homepage} aria-label={`${project.name} website`}>site →</a>}
-      </p>
-    )}
+    <p class="meta">
+      {stars > 0 && <span>★ {stars}</span>}
+      <a href={project.url} aria-label={`${project.name} repository on GitHub`}>repo →</a>
+      {project.homepage && <a href={project.homepage} aria-label={`${project.name} website`}>site →</a>}
+    </p>
   </div>
 </article>

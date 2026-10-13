@@ -64,6 +64,13 @@ Edit `src/data/projects.ts`:
 - **`groups`**: topic → section title for every other public repo. The first topic in config order wins;
   repos with no matching topic go under "Other". New public repos appear on `/projects/` after the next build.
 
+Every featured project also gets its own page at `/projects/<repo>/`: the mark and tagline as a hero, the blurb,
+key result and links, then the repo's README, fetched and rendered at build time (the `readmes` content
+collection in `src/content.config.ts`, helpers in `src/lib/readme.ts`). The README's leading banner and `#
+Title` are dropped since the page shows both, as is any line linking back to this site's root. Relative links
+and images are pointed at the repo on GitHub. On the cards, the project name links to that page and the footer's
+`repo →` links to the repository. Non-featured repos have no page, so their name links to the repository too.
+
 Live data (description, language, stars, homepage, topics) comes from GitHub. A featured entry can set
 `language` when GitHub reports none or the wrong one (tdm-demo holds only its WebAssembly build). Star counts
 below 10 are not shown. A repo homepage pointing at
@@ -137,10 +144,11 @@ src/
   data/projects.ts      featured / exclude / groups
   lib/github.ts         GitHub API fetch + pure filter/merge/group functions (unit-tested)
   lib/load-projects.ts  one API round-trip per build, shared by all pages
+  lib/readme.ts         README fetch, header strip, relative-URL rewrite (unit-tested)
   lib/posts.ts          draft filtering, date formatting (unit-tested)
   layouts/              Base (site shell, meta tags), Post (serif reading layout)
   components/           ProjectCard, PostList
-  pages/                /, /projects/, /writing/, /writing/<slug>/, /about/, /rss.xml, 404
+  pages/                /, /projects/, /projects/<repo>/, /writing/, /writing/<slug>/, /about/, /rss.xml, 404
   styles/               tokens.css (shared with tiko-di's site), global.css
 test/                   Vitest suites + a real-shaped GitHub API fixture
 scripts/og-card.html    source of public/og.png

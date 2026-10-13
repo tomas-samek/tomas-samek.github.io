@@ -65,3 +65,9 @@ export const HUES: Record<Hue, Record<Theme, { ink: string; tint: string }>> = {
 };
 
 export const FALLBACK_VISUAL: Omit<Visual, 'tagline'> = { mark: 'repo', hue: 'slate' };
+
+/** Inline custom properties that `.hued` (global.css) turns into --ink/--tint for the current theme. */
+export function hueStyle(hue: Hue): string {
+  const { light, dark } = HUES[hue];
+  return `--ink-l:${light.ink};--tint-l:${light.tint};--ink-d:${dark.ink};--tint-d:${dark.tint}`;
+}
